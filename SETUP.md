@@ -8,20 +8,39 @@ Este guia documenta o processo para iniciar o projeto do zero, garantindo que o 
 
 Se a pasta estiver vazia (apenas com Dockerfile/Makefile/Compose), siga este fluxo:
 
-1. **Gerar Boilerplate Next.js em pasta temporária:**
+1. **Gerar Boilerplate Next.js em pasta temporária (usar React Compiler):**
 ``` bash
 docker compose run -it --rm app bunx create-next-app@latest ./temp --typescript --tailwind --eslint --src-dir --app --import-alias "@/*"
 ```
 
-2. **Mover Arquivos para a Raiz e Limpar:**
+2. **Retomar Permissões (Linux):**
+Como o Docker cria os arquivos como `root`, execute para evitar erro de "Permissão Negada":
+``` bash
+sudo chown -R $USER:$USER .
+```
+
+3. **Mover Arquivos para a Raiz e Limpar:**
 ``` bash
 mv temp/* . && mv temp/.* . && rm -rf temp
 ```
 
-3. **Retomar Permissões (Linux):**
-   Como o Docker cria os arquivos como `root`, execute para evitar erro de "Permissão Negada":
+4. **Instalar dependências:**
+Como você moveu os arquivos agora, precisamos garantir que o container tenha o `node_modules` atualizado.
 ``` bash
-sudo chown -R $USER:$USER .
+docker compose run --rm app bun install
+```
+
+5. **Rodar o projeto:**
+Agora você já pode ver o `Next.js` funcionando
+``` bash
+make dev
+```
+Acesse no navegador: `http://localhost:3003.`
+
+6. **Configuração visual:**
+Assim que você confirmar que o site abriu na `porta 3003`, o próximo passo essencial é configurar o `Shadcn UI` para podermos criar os componentes do projeto:
+``` bash
+make ui-init
 ```
 
 ---

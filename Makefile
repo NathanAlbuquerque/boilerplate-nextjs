@@ -1,4 +1,3 @@
-# Variáveis
 DOCKER_RUN = docker compose run --rm app
 DOCKER_COMPOSE = docker compose
 
